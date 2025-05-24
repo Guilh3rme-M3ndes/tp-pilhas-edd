@@ -1,9 +1,19 @@
+/*
+Guilherme Mendes de Sousa
+CB3030857
+ADS371
+
+OBS: foram utilizadas sobrecargas de funções afim de reduzir o número de assinaturas.
+*/
+
 #include <iostream>
+#include <string>
 #include <locale.h>
-#define TAM 30
+#define TAM 8
 
 using namespace std;
 
+//Pilhas e nós
 struct PilhaImpar
 {
 	int numeros[TAM];
@@ -22,6 +32,7 @@ struct PilhaPar
 	Par *topo;
 };
 
+// Funções de inicialização e auxiliares.
 PilhaImpar* initImpar()
 {
 	PilhaImpar* p = new PilhaImpar;
@@ -49,6 +60,8 @@ bool isEmpty(PilhaPar* p)
 
 	return (p->topo == NULL);
 }
+
+// Empilhamentos
 bool push(PilhaImpar* p, int num)
 {
 
@@ -70,6 +83,7 @@ void push(PilhaPar* p, int num)
 
 }
 
+// Desempilhamentos
 int pop(PilhaImpar* p)
 {
 
@@ -107,24 +121,49 @@ int pop(PilhaPar* p)
 
 void popPilhas(PilhaPar* pares, PilhaImpar* impares)
 {
-
+	cout << string(25, '-') << endl;
 	for (int ii = 0; ii < TAM; ii++)
 	{
-		if (isEmpty(pares)) {
-			cout << "Desempilhando impar: " << pop(impares) << endl; 
+		if (isEmpty(pares))
+		{
+			cout << "Desempilhando impar: " << pop(impares) << endl;
 		}
-		else if (isEmpty(impares)) {
+		else if (isEmpty(impares))
+		{
 			cout << "Desempilhando par: " << pop(pares) << endl;
 		}
-		else if (pares->topo->numero < impares->numeros[impares->qtd - 1]) {
-			cout << "Desempilhando impar: " << pop(impares) << endl; 
+		else if (pares->topo->numero < impares->numeros[impares->qtd - 1])
+		{
+			cout << "Desempilhando impar: " << pop(impares) << endl;
 		}
-		else {
+		else
+		{
 			cout << "Desempilhando par: " << pop(pares) << endl;
 		}
 	}
+	cout << string(25, '-') << endl;
 }
 
+// Funções para a liberação de memória ocupada
+void freePilha(PilhaImpar* p)
+{
+
+	free(p);
+}
+
+void freePilha(PilhaPar* p)
+{
+	Par* par = p->topo;
+	while(par != NULL)
+	{
+		Par* aux = par->ant;
+		free(par);
+		par = aux;
+	}
+	free(p);
+}
+
+// Validação de digitação crescente
 bool numValido(int num, int ant)
 {
 
@@ -139,30 +178,37 @@ int main(int argc, char** argv)
 	PilhaPar* pilhaPar = initPar();
 	int numAnterior = 0;
 
+	// Captura dos números
 	for(int ii = 0; ii < TAM; ii++)
 	{
 		int numAtual;
-		cout << "Digite um nÃºmero inteiro: " << endl;
+		cout << "Digite um número inteiro: " << endl;
 		cin >> numAtual;
 		cin.ignore(1000, '\n');
 		while(!numValido(numAtual, numAnterior))
 		{
-			cout << "Precisa ser maior que zero e maior que o nÃºmero anterior!" << endl;
-			cout << "Digite um nÃºmero inteiro: " << endl;
+			cout << "Precisa ser maior que zero e maior que o número anterior!" << endl;
+			cout << "Digite um número inteiro: " << endl;
 			cin >> numAtual;
 			cin.ignore(1000, '\n');
 		}
-		if (numAtual%2 == 0) {
+		if (numAtual % 2 == 0)
+		{
 			push(pilhaPar, numAtual);
-			cout << "num empilhado: " << pilhaPar->topo->numero << endl;
 		}
-		else {
-			cout << "empilhou em " << pilhaImpar->qtd -1 << push(pilhaImpar, numAtual) <<  endl;
-			cout << "num empilhado " << pilhaImpar->numeros[pilhaImpar->qtd - 1] << endl;
+		else
+		{
+			push(pilhaImpar, numAtual);
+
 		}
 		numAnterior = numAtual;
 	}
+	// Exibe e desempilha em ordem decrescente
 	popPilhas(pilhaPar, pilhaImpar);
-	
+
+	//Libera o armazenamento das pilhas
+	freePilha(pilhaImpar);
+	freePilha(pilhaPar);
+
 	return 0;
 }
