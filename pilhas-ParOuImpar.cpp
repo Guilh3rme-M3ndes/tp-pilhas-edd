@@ -1,6 +1,6 @@
 #include <iostream>
 #include <locale.h>
-#define TAM 9
+#define TAM 30
 
 using namespace std;
 
@@ -142,13 +142,13 @@ int main(int argc, char** argv)
 	for(int ii = 0; ii < TAM; ii++)
 	{
 		int numAtual;
-		cout << "Digite um número inteiro: " << endl;
+		cout << "Digite um nÃºmero inteiro: " << endl;
 		cin >> numAtual;
 		cin.ignore(1000, '\n');
 		while(!numValido(numAtual, numAnterior))
 		{
-			cout << "Precisa ser maior que zero e maior que o número anterior!" << endl;
-			cout << "Digite um número inteiro: " << endl;
+			cout << "Precisa ser maior que zero e maior que o nÃºmero anterior!" << endl;
+			cout << "Digite um nÃºmero inteiro: " << endl;
 			cin >> numAtual;
 			cin.ignore(1000, '\n');
 		}
