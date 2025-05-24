@@ -9,7 +9,7 @@ OBS: foram utilizadas sobrecargas de funções afim de reduzir o número de assinat
 #include <iostream>
 #include <string>
 #include <locale.h>
-#define TAM 8
+#define TAM 30
 
 using namespace std;
 
